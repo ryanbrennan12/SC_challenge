@@ -1,0 +1,24 @@
+{
+  "name": "smartcar",
+  "version": "1.0.0",
+  "description": "backend challenge",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanbrennan12/SC_challenge.git"
+  },
+  "author": "Ryan Brennan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryanbrennan12/SC_challenge/issues"
+  },
+  "homepage": "https://github.com/ryanbrennan12/SC_challenge#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1"
+  }
+}
