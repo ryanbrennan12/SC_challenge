@@ -1,50 +1,48 @@
 const axios = require('axios');
+const format = require('./helpers');
 
-jsonFormat = (json, callback) => {
-  const results = {};
-  console.log('I AM JSON', json)
-  for (let key in json) {
 
-    if (key === "vin" || key === "color") {
-      results[key] = json[key].value;
-    } else if (key === "fourDoorSedan") {
-      if (json[key].value === "True") {
-        results.doorCount = 4;
-      } else {
-        results.doorCount = 2;
-      }
-    } else if (key === "driveTrain") {
-      results[key] = json[key].value;
-    }
-  }
-
-  callback(results);
-}
-
-getVehicleInfoById = (id, callback) => {
+const getVehicleInfoById = (id, callback) => {
   axios.post('http://gmapi.azurewebsites.net/getVehicleInfoService', {
     id: id,
     responseType: 'JSON'
   })
     .then((res) => {
-      console.log("I AM FROM PLANET AXIOS", res.data.data)
-      jsonFormat(res.data.data, (formattedData) => {
-        console.log(formattedData)
+      format.jsonFormatId(res.data.data, (formattedData) => {
         callback(formattedData);
-      })
+      });
     })
     .catch((error) => {
-      callback('we have an error', error);
+      throw new Error(error);
+    });
+}
+
+const getSecurityInfoById = (id, callback) => {
+  axios.post('http://gmapi.azurewebsites.net/getSecurityStatusService', {
+    id: id,
+    responseType: 'JSON'
+  })
+    .then((res) => {
+      console.log('we have a response ', res.data)
+      format.jsonFormatSecurity(res.data.data, (formattedData) => {
+        callback(formattedData);
+      });
     })
-  }
-
-
-
+    .catch((error) => {
+      throw new Error(error);
+    });
+}
 
 
 module.exports = {
-  getVehicleInfoById
+  getVehicleInfoById,
+  getSecurityInfoById
 }
+
+
+
+
+
 
 
 
