@@ -23,7 +23,6 @@ const getSecurityInfoById = (id, callback) => {
     responseType: 'JSON'
   })
     .then((res) => {
-      console.log('we have a response ', res.data)
       format.jsonFormatSecurity(res.data.data, (formattedData) => {
         callback(formattedData);
       });
@@ -33,10 +32,21 @@ const getSecurityInfoById = (id, callback) => {
     });
 }
 
+const getBatteryLevel = (id, callback) => {
+  axios.post('http://gmapi.azurewebsites.net/getEnergyService', {
+    id: id,
+    responseType: 'JSON'
+  })
+  .then((res) => {
+    callback(res.data.data)
+  })
+}
+
 
 module.exports = {
   getVehicleInfoById,
-  getSecurityInfoById
+  getSecurityInfoById,
+  getBatteryLevel
 }
 
 

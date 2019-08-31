@@ -22,11 +22,14 @@
     "body-parser": "^1.19.0",
     "bunyan": "^1.8.12",
     "express": "^4.17.1",
-    "nodemon": "^1.19.1"
+    "express-pino-logger": "^4.0.0",
+    "nodemon": "^1.19.1",
+    "pino": "^5.13.2"
   },
   "devDependencies": {
     "eslint": "^6.3.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint-plugin-import": "^2.18.2",
+    "pino-pretty": "^3.2.1"
   }
 }
