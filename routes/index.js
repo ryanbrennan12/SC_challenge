@@ -19,8 +19,9 @@ router.get('/vehicles/:id', (req, res) => {
     if (err || !hasRecord) {
       errors.noprofile = `There is no record for vehicle id: ${req.params.id}`;
       res.status(404).json(errors);
+    } else {
+      res.status(200).json(vehicle);
     }
-    res.status(200).json(vehicle);
   });
 });
 
@@ -34,23 +35,26 @@ router.get('/vehicles/:id/doors', (req, res) => {
     if (err || !Object.keys(vehicle).length) {
       errors.nosecurity = mssg;
       res.status(404).json(errors);
+    } else {
+      res.status(200).json(vehicle);
     }
-    res.status(200).json(vehicle);
   });
 });
+
 
 // @route  GET /vehicles/:id/battery
 // @desc   gets battery level by vehicle id
 router.get('/vehicles/:id/battery', (req, res, next) => {
   const errors = {};
-  const mssg = 'There is no battery reading for this vehicle';
+  const mssg = `There is no battery reading for this vehicle id: ${req.params.id}`;
 
   utils.getEnergyLevel(req.params.id, (err, battery) => {
     if (err || battery.batteryLevel.value === 'null') {
       errors.nobattery = mssg;
       res.status(404).json(errors);
+    } else {
+      res.status(200).json({ percent: battery.batteryLevel.value });
     }
-    res.status(200).json({ percent: battery.batteryLevel.value });
   });
 });
 
@@ -58,17 +62,17 @@ router.get('/vehicles/:id/battery', (req, res, next) => {
 // @desc   gets fuel level by vehicle id
 router.get('/vehicles/:id/fuel', (req, res) => {
   const errors = {};
-  const mssg= 'There is no fuel reading for this vehicle';
+  const mssg= `There is no fuel reading for this vehicle id: ${req.params.id}`;
 
   utils.getEnergyLevel(req.params.id, (err, battery) => {
     if (err || battery.tankLevel.value === 'null') {
       errors.nofuel = mssg;
       res.status(404).json(errors);
+    } else {
+      res.status(200).json({ percent: battery.tankLevel.value });
     }
-    res.status(200).json({ percent: battery.tankLevel.value });
   });
 });
-
 
 // @route POST /vehicles/:id/engine
 // @desc  Turns car On/Off
@@ -85,11 +89,11 @@ router.post('/vehicles/:id/engine', (req, res) => {
       errors.noaction = mssg;
       res.status(404).json(errors);
     } else {
-
       res.status(200).json(result);
     }
   });
 });
+
 
 
 

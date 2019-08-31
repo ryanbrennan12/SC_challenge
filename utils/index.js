@@ -18,11 +18,12 @@ const getVehicleInfoById = (id, callback) => {
 }
 
 const getSecurityInfoById = (id, callback) => {
-  axios.post(`${url}getSecurityStatusService'`, {
+  axios.post(`${url}getSecurityStatusService`, {
     id: id,
     responseType: 'JSON'
   })
     .then((res) => {
+      console.log('I AM SECURITY INFO ', res);
       format.jsonFormatSecurity(res.data.data, (formattedData) => {
         callback(null, formattedData);
       });

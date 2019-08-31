@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 app.use('/api', routes);
 
 app.get('/', (req, res) => {
-  // logger.debug('Calling res.send');
+
   res.send('Hey worlds')
 })
 
