@@ -32,10 +32,23 @@ const jsonFormatSecurity = (json, callback) => {
   callback(results);
 }
 
+const jsonFormatEngineAction = (json, callback) => {
+  const results = {};
+
+  if (json.data.actionResult.status === 'EXECUTED') {
+    results.status = 'success'
+  } else if (json.data.actionResult.status === 'FAILED') {
+    results.status = 'error';
+  }
+  callback(results);
+}
+
+
 
 module.exports = {
   jsonFormatId,
-  jsonFormatSecurity
+  jsonFormatSecurity,
+  jsonFormatEngineAction
 }
 
 

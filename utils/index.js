@@ -45,12 +45,30 @@ const getEnergyLevel = (id, callback) => {
     })
 }
 
+const startStopEngine = (id, action, callback) => {
+  axios.post(`${url}actionEngineService`, {
+    id: id,
+    command: action,
+    responseType: 'JSON',
+  })
+    .then((res) => {
+      format.jsonFormatEngineAction(res, (formattedData) => {
+        callback(null, formattedData);
+      });
+    })
+    .catch((error) => {
+      callback(error, null);
+    })
+}
 
 module.exports = {
   getVehicleInfoById,
   getSecurityInfoById,
-  getEnergyLevel
+  getEnergyLevel,
+  startStopEngine
 }
+
+
 
 
 
