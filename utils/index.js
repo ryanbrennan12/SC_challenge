@@ -5,6 +5,11 @@ const url = 'http://gmapi.azurewebsites.net/';
 const http = axios.create({
   baseURL: url
 })
+//These helper functions are making Axios requests and
+//when applicable, using functions imported from the format-module to
+//change the data shape when applicable.
+//All parameters labeled 'callback' are being invoked as functions on the Response Object
+//in routes/index.js
 
 const getVehicleInfoById = (id, callback) => {
    http.post('getVehicleInfoService', {
@@ -13,7 +18,6 @@ const getVehicleInfoById = (id, callback) => {
   })
     .then((res) => {
       format.jsonFormatId(res.data.data, (formattedData) => {
-        console.log(formattedData, 'DATA')
         callback(null, formattedData);
       });
     })

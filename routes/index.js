@@ -4,6 +4,7 @@ const utils = require('../utils');
 const pino = require('pino');
 const expressPino = require('express-pino-logger');
 const logger = pino({ prettyPrint: { colorize: true } });
+
 // @route  GET /vehicles/:id
 // @desc   get vehicle information by ID
 // @errors from the GM api and
@@ -13,17 +14,14 @@ router.get('/vehicles/:id', (req, res) => {
   const devMssg = `User is requesting vehicle id: ${req.params.id}`;
 
   utils.getVehicleInfoById(req.params.id, (err, vehicleInfo) => {
-
     const hasRecord = !!Object.keys(vehicleInfo).length;
-
     if (err || !hasRecord) {
-      console.log('YASSS')
+
       errors.noprofile = mssg;
       logger.error(devMssg);
       res.status(404).json(errors);
     } else {
       res.status(200).json(vehicleInfo);
-
     }
   });
 });

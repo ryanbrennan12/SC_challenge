@@ -1,14 +1,14 @@
 const expect = require('chai').expect;
 const nock = require('nock');
 const utils = require('../utils/index.js');
+//mock axios responses being used with nock
 const response = require('./response');
-
-
+const url = 'http://gmapi.azurewebsites.net';
 describe('GET User Vehicle Info', () => {
-  const url = 'http://gmapi.azurewebsites.net/getVehicleInfoService';
+  // const url = 'http://gmapi.azurewebsites.net/getVehicleInfoService';
   beforeEach(() => {
     nock(url)
-      .post('')
+      .post('/getVehicleInfoService')
       .reply(200, response.mockVehicleResponse);
   });
 
@@ -24,7 +24,6 @@ describe('GET User Vehicle Info', () => {
 });
 
 describe('GET Vehicle Security (doors) Info', () => {
-  const url = 'http://gmapi.azurewebsites.net';
   beforeEach(() => {
     nock(url)
       .post('/getSecurityStatusService')
@@ -41,5 +40,43 @@ describe('GET Vehicle Security (doors) Info', () => {
     done();
   });
 });
+
+describe('GET Vehicle Battery Level', () => {
+  beforeEach(() => {
+    nock(url)
+      .post('/getEnergyService')
+      .reply(200, response.mockBatteryResponse);
+  });
+
+  it('Returns Battery level', (done) => {
+    utils.getEnergyLevel(1234, (err, result) => {
+      if (err) { return done (err); }
+      expect(typeof result).to.equal('object');
+      expect(typeof parseInt(result.batteryLevel.value)).to.equal('number');
+    });
+    done();
+  });
+});
+
+
+describe('POST Start/Stop Engine', () => {
+  beforeEach(() => {
+    nock(url)
+      .post('/actionEngineService')
+      .reply(200, response.mockEngineResponse);
+  });
+
+  it(`Returns 'success' or 'error' for a given Action'`, (done) => {
+    utils.startStopEngine(1234, 'START_VEHICLE', (err, result) => {
+      if (err) { return done (err); }
+      expect(typeof result).to.equal('object');
+      expect(result.status).to.equal('success' || 'error');
+    });
+    done();
+  });
+});
+
+
+
 
 

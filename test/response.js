@@ -77,9 +77,34 @@ const mockSecurityResponse = {
   }
 }
 
+const mockBatteryResponse = {
+  "service": "getEnergy",
+  "status": "200",
+  "data": {
+    "tankLevel": {
+      "type": "Number",
+      "value": "30.2"
+    },
+    "batteryLevel": {
+      "type": "Null",
+      "value": "60.6"
+    }
+  }
+}
+
+const mockEngineResponse = {
+  "service": "actionEngine",
+  "status": "200",
+  "actionResult": {
+  "status": "EXECUTED"
+  }
+}
 
 
   module.exports = {
     mockVehicleResponse,
-    mockSecurityResponse
+    mockSecurityResponse,
+    mockBatteryResponse,
+    mockEngineResponse
   };
+
