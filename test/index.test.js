@@ -4,8 +4,8 @@ const utils = require('../utils/index.js');
 //mock axios responses being used with nock
 const response = require('./response');
 const url = 'http://gmapi.azurewebsites.net';
+
 describe('GET User Vehicle Info', () => {
-  // const url = 'http://gmapi.azurewebsites.net/getVehicleInfoService';
   beforeEach(() => {
     nock(url)
       .post('/getVehicleInfoService')
@@ -58,6 +58,22 @@ describe('GET Vehicle Battery Level', () => {
   });
 });
 
+describe('GET Vehicle Fuel Level', () => {
+  beforeEach(() => {
+    nock(url)
+      .post('/getEnergyService')
+      .reply(200, response.mockBatteryResponse);
+  });
+
+  it('Returns Fuel level', (done) => {
+    utils.getEnergyLevel(1234, (err, result) => {
+      if (err) { return done (err); }
+      expect(typeof result).to.equal('object');
+      expect(typeof parseInt(result.tankLevel.value)).to.equal('number');
+    });
+    done();
+  });
+});
 
 describe('POST Start/Stop Engine', () => {
   beforeEach(() => {
