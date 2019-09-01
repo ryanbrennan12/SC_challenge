@@ -13,6 +13,7 @@ const getVehicleInfoById = (id, callback) => {
   })
     .then((res) => {
       format.jsonFormatId(res.data.data, (formattedData) => {
+        console.log(formattedData, 'DATA')
         callback(null, formattedData);
       });
     })
