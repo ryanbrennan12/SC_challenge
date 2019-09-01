@@ -22,16 +22,20 @@ const jsonFormatId = (json, callback) => {
 }
 
 const jsonFormatSecurity = (json, callback) => {
-  const results = [];
-  const doors = json.doors.values;
+  let results = [];
 
-  doors.forEach((door) => {
-    results.push({
-      location: door.location.value,
-      locked: door.locked.value.toLowerCase()
+  if (json.length === 0) {
+    results = []
+  } else {
+    const doors = json.doors.values;
+
+    doors.forEach((door) => {
+      results.push({
+        location: door.location.value,
+        locked: door.locked.value.toLowerCase()
+      });
     });
-  });
-
+  }
   callback(results);
 }
 

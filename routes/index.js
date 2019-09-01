@@ -11,7 +11,8 @@ router.get('/', (req, res) => {
 
 // @route  GET /vehicles/:id
 // @desc   get vehicle information by ID
-// @errors from the GM api and
+// @errors propogated GM API errors and no-record errors are being handled as the same--
+// --would need to revisit
 router.get('/vehicles/:id', (req, res) => {
   const errors = {};
   const mssg = `There is no record for vehicle id: ${req.params.id}`;

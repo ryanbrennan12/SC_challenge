@@ -33,11 +33,15 @@ const getSecurityInfoById = (id, callback) => {
     responseType: 'JSON'
   })
     .then((res) => {
-      format.jsonFormatSecurity(res.data.data, (formattedData) => {
+      (res.data.status === '404') ? res = [] : res = res.data.data
+      // (res.data.status === )
+      format.jsonFormatSecurity(res, (formattedData) => {
+
         callback(null, formattedData);
       });
     })
     .catch((error) => {
+      console.log(error)
       callback(error, null);
     });
 }

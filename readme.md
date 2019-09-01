@@ -3,8 +3,10 @@
   - [1.2 Development Setup](#12-development-setup)
   - [1.3 API endpoints](#13-api-endpoints)
   - [1.4 Walkthrough sample route](#14-walkthrough-sample-route)
-  - [1.5 Log](#15-log)
-
+  - [1.5 Development Log](#15-development-log)
+    - [1.5.1 Logging](#151-logging)
+    - [1.5.2 Testing](#152-testing)
+    - [1.5.3 Error Handling](#153-error-handling)
 
 ### 1.2. Development Setup
 
@@ -92,13 +94,40 @@ It is also logged and timestamped as an `ERROR`
 ```sh
 [1567351682519] ERROR (40003 on Ryans-MBP): User is requesting vehicle id: 444
 ```
-### 1.5 Log
+### 1.5 Development Log
 
 No issues getting responses back from the GM API. Thought is to break out formatting logic functions into their own file in `utilities`.  These functions can definitely be optimized or their logic placed directly in the module that is making the Axios request.  But for the sake of modularity and readability, we will keep it like this.
 
-`Logging` - Going to go with `pino` after running into a myriad of issues with `bunyan`. Only used one of six log levels (`ERROR`) and these were all when our requests were given invalid inputs.  There is plenty of opportunity for more logging given more time.  Also, need to revisit writing the logs to a file.
+#### 1.5.1 Logging
+  Going to go with `pino` after running into a myriad of issues with `bunyan`. Only used one of six log levels (`ERROR`) and these were all when our requests were given invalid inputs.  There is plenty of opportunity for more logging given more time.  Also, need to revisit writing the logs to a file.
 
-`Testing`- Had I just pinged the `GM API` for my tests, the test coverage could have been more robust as the process would have been more straightforward. But due to the fact that an external resource may require authentication, authorization or may have a rate limiting, I erred on the side of best practice to mock those third party request/responses.  After attempts with `moxios`, `sinon`, and `node-mocks-http`, I was finally able to get `nock` behaving as I intended
+#### 1.5.2 Testing
+Had I just pinged the `GM API` for my tests, the test coverage could have been more robust as the process would have been more straightforward. But due to the fact that an external resource may require authentication, authorization or may have a rate limiting, I erred on the side of best practice to mock those third party request/responses.  After attempts with `moxios`, `sinon`, and `node-mocks-http`, I was finally able to get `nock` behaving as I intended
+
+#### 1.5.3 Error Handling
+Given more time, there is plenty of opportunity to get more granular with the error handling and logging as a whole. As of now,  propogated GM API errors from the `Axios` requests and no-record errors are being handled as the same.  For instance, this `hasRecord` variable is just checking for an empty Object when the id given is invalid.  the `err` being passed along from the `axios` request could be error-ing out for a myriad of reasons. As of now they are bundled together, and for the sake of the scope of this application's functionality, it works well.
+
+```sh
+ router.get('/vehicles/:id', (req, res) => {
+  const errors = {};
+  const mssg = `There is no record for vehicle id: ${req.params.id}`;
+  const devMssg = `User is requesting vehicle id: ${req.params.id}`;
+
+  utils.getVehicleInfoById(req.params.id, (err, vehicleInfo) => {
+    const hasRecord = !!Object.keys(vehicleInfo).length;
+    if (err || !hasRecord) {
+
+      errors.noprofile = mssg;
+      logger.error(devMssg);
+      res.status(404).json(errors);
+    } else {
+      res.status(200).json(vehicleInfo);
+    }
+  });
+});
+
+```
+
 
 
 
