@@ -1,16 +1,17 @@
 const axios = require('axios');
 const format = require('./helpers');
 const url = 'http://gmapi.azurewebsites.net/';
+//These helper functions are making Axios requests and
+//when applicable, using functions imported from the format-module to
+//change the data shape.
+
+//Response object functions ie: res.status(200).json('Hi I'm a comment')
+//in routes/index.js are the arguments to the invocation of all parameters in this file
+//labeled 'callback;
 
 const http = axios.create({
   baseURL: url
-})
-//These helper functions are making Axios requests and
-//when applicable, using functions imported from the format-module to
-//change the data shape when applicable.
-//All parameters labeled 'callback' are being invoked as functions on the Response Object
-//in routes/index.js
-
+});
 const getVehicleInfoById = (id, callback) => {
    http.post('getVehicleInfoService', {
     id: id,

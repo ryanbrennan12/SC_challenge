@@ -5,6 +5,10 @@ const pino = require('pino');
 const expressPino = require('express-pino-logger');
 const logger = pino({ prettyPrint: { colorize: true } });
 
+router.get('/', (req, res) => {
+  res.status(200).send('Nothing much to see here. Go play with some routes:)🚀')
+})
+
 // @route  GET /vehicles/:id
 // @desc   get vehicle information by ID
 // @errors from the GM api and

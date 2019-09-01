@@ -1,3 +1,6 @@
+//Anonymous functions in helpers.js are arguments to the invovcation of the parameters
+//labeled 'callback' in this file.  This is to simply pass the results along asynchronously
+
 const jsonFormatId = (json, callback) => {
   const results = {};
 
@@ -42,7 +45,6 @@ const jsonFormatEngineAction = (json, callback) => {
   }
   callback(results);
 }
-
 
 
 module.exports = {
