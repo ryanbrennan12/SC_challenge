@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const utils = require('../utils');
 
-const logger = require('pino')();
-const expressPino = require('express-pino-logger');
-
 // @route  GET /vehicles/:id
 // @desc   get vehicle information by ID
 // @errors from the GM api and
@@ -104,11 +101,11 @@ router.post('/vehicles/:id/engine', (req, res) => {
   });
 });
 
-
-
-
-
 module.exports = router;
+
+
+
+
 
 
 

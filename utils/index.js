@@ -7,37 +7,22 @@ const http = axios.create({
 })
 
 const getVehicleInfoById = (id, callback) => {
-  http.post('getVehicleInfoService', {
+  return http.post('getVehicleInfoService', {
     id: id,
     responseType: 'JSON'
   })
-  .then((res) => {
-    format.jsonFormatId(res.data.data, (formattedData) => {
-       callback(formattedData);
+    .then((res) => {
+      format.jsonFormatId(res.data.data, (formattedData) => {
+        callback(null, formattedData);
+      });
+    })
+    .catch((error) => {
+      callback(error, null);
     });
-  })
-  .catch((error) => {
-    callback(error);
-  });
 }
 
-// const getVehicleInfoById = (id, callback) => {
-//   axios.post(`${url}getVehicleInfoService`, {
-//     id: id,
-//     responseType: 'JSON'
-//   })
-//     .then((res) => {
-//       format.jsonFormatId(res.data.data, (formattedData) => {
-//         callback(null, formattedData);
-//       });
-//     })
-//     .catch((error) => {
-//       callback(error, null);
-//     });
-// }
-
 const getSecurityInfoById = (id, callback) => {
-  axios.post(`${url}getSecurityStatusService`, {
+  http.post('getSecurityStatusService', {
     id: id,
     responseType: 'JSON'
   })
@@ -52,7 +37,7 @@ const getSecurityInfoById = (id, callback) => {
 }
 
 const getEnergyLevel = (id, callback) => {
-  axios.post(`${url}getEnergyService`, {
+  http.post('getEnergyService', {
     id: id,
     responseType: 'JSON'
   })
@@ -65,7 +50,7 @@ const getEnergyLevel = (id, callback) => {
 }
 
 const startStopEngine = (id, action, callback) => {
-  axios.post(`${url}actionEngineService`, {
+  http.post('actionEngineService', {
     id: id,
     command: action,
     responseType: 'JSON',
@@ -86,7 +71,7 @@ module.exports = {
   getEnergyLevel,
   startStopEngine,
   http
-}
+};
 
 
 
