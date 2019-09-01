@@ -7,7 +7,7 @@ const http = axios.create({
 })
 
 const getVehicleInfoById = (id, callback) => {
-  return http.post('getVehicleInfoService', {
+   http.post('getVehicleInfoService', {
     id: id,
     responseType: 'JSON'
   })
