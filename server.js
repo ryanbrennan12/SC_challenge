@@ -1,16 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const pino = require('pino');
-const expressPino = require('express-pino-logger');
+// const pino = require('pino');
+// const expressPino = require('express-pino-logger');
 
-const logger = pino({ prettyPrint: { colorize: true } })
-const expressLogger = expressPino({ logger });
+// const logger = pino({ prettyPrint: { colorize: true } })
+// const expressLogger = expressPino({ logger });
 const routes = require('./routes');
 
 const PORT = 3000;
 const app = express();
 
-app.use(expressLogger);
+// app.use(expressLogger);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 })
 
 app.listen(PORT, () => {
-  logger.info('Server running on port %d', PORT);
+  console.log('Listening on port',PORT)
 });
 
 

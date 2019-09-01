@@ -2,20 +2,39 @@ const axios = require('axios');
 const format = require('./helpers');
 const url = 'http://gmapi.azurewebsites.net/';
 
+const http = axios.create({
+  baseURL: url
+})
+
 const getVehicleInfoById = (id, callback) => {
-  axios.post(`${url}getVehicleInfoService`, {
+  http.post('getVehicleInfoService', {
     id: id,
     responseType: 'JSON'
   })
-    .then((res) => {
-      format.jsonFormatId(res.data.data, (formattedData) => {
-        callback(null, formattedData);
-      });
-    })
-    .catch((error) => {
-      callback(error, null);
+  .then((res) => {
+    format.jsonFormatId(res.data.data, (formattedData) => {
+       callback(formattedData);
     });
+  })
+  .catch((error) => {
+    callback(error);
+  });
 }
+
+// const getVehicleInfoById = (id, callback) => {
+//   axios.post(`${url}getVehicleInfoService`, {
+//     id: id,
+//     responseType: 'JSON'
+//   })
+//     .then((res) => {
+//       format.jsonFormatId(res.data.data, (formattedData) => {
+//         callback(null, formattedData);
+//       });
+//     })
+//     .catch((error) => {
+//       callback(error, null);
+//     });
+// }
 
 const getSecurityInfoById = (id, callback) => {
   axios.post(`${url}getSecurityStatusService`, {
@@ -23,7 +42,6 @@ const getSecurityInfoById = (id, callback) => {
     responseType: 'JSON'
   })
     .then((res) => {
-      console.log('I AM SECURITY INFO ', res);
       format.jsonFormatSecurity(res.data.data, (formattedData) => {
         callback(null, formattedData);
       });
@@ -66,7 +84,8 @@ module.exports = {
   getVehicleInfoById,
   getSecurityInfoById,
   getEnergyLevel,
-  startStopEngine
+  startStopEngine,
+  http
 }
 
 
